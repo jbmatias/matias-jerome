@@ -1,0 +1,69 @@
+version: "3"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: store-api-app
+    container_name: app-store
+    restart: unless-stopped
+    environment:
+      DB_HOST: db
+      DB_PASSWORD: root
+      DB_NAME: store-api      
+    networks:
+      - store-api
+    volumes:
+      - ./:/var/www
+      - ./docker/php.ini:/usr/local/etc/php/conf.d/local.ini
+
+  webserver:
+    build:
+      context: .
+      dockerfile: Dockerfile_Nginx
+    image: store-api-nginx 
+    container_name: webserver-store-api 
+    restart: unless-stopped
+    ports:
+      - "8181:80"
+    volumes:
+      - ./:/var/www
+    networks:
+      - store-api
+    depends_on:
+      - app  
+      
+  mailpit:
+    image: 'axllent/mailpit:latest'
+    ports:
+      - '${FORWARD_MAILPIT_PORT:-1025}:1025'
+      - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025'
+    networks:
+      - store-api
+
+  db:
+    image: mariadb:10.3.36
+    command: --max_allowed_packet=32505856 --character-set-server=utf8 --collation-server=utf8_general_ci
+    container_name: db-store-api
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: store-api
+      MARIADB_ROOT_PASSWORD: root
+    networks:
+      - store-api
+    volumes:
+      - store-api-db:/var/lib/mysql/
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+        - ${PHP_MY_ADMIN_PORT:-8000}:80
+    networks:
+      - store-api
+    depends_on:
+        - db  
+networks:
+  store-api:
+    driver: bridge
+volumes:
+  store-api-db:   
+    driver: local 
