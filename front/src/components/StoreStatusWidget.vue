@@ -55,15 +55,15 @@ export default defineComponent({
     
     const checkStoreOpeningHours = () => {         
       let data = storeHours   
-      Object.entries(data).forEach((day) => {        
-        if(day[1].day_num == currentDayNum) {          
+      Object.entries(data).forEach((day) => {            
+        if(day[1].day_num == currentDayNum && day[1].enabled == 1) {          
           const startTime = moment(day[1].open, 'hh:mm'); 
           const endTime = moment(day[1].close, 'hh:mm');                     
           
           const currentTime = moment();          
           isOpen.value = currentTime.isBetween(startTime, endTime);          
 
-          console.log(startTime, endTime, currentTime.format('HH:mm'))
+          console.log(startTime, endTime, isOpen.value)
 
           if(!isOpen.value)
             checkNextOpeningDate()
@@ -139,14 +139,15 @@ export default defineComponent({
     
     watchEffect(() => {    
       onMonthChange(moment().month())      
+      checkStoreOpeningHours()
+      checkStoreOnBreakHours()
       if(props.isDataLoaded)
         isDataLoaded.value = true
     })
 
     onMounted(() => {
       setInterval(() => {
-        checkStoreOpeningHours()
-        checkStoreOnBreakHours()
+        
       }, 1000)
     });
 
