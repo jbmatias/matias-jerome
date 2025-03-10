@@ -63,11 +63,7 @@ export default defineComponent({
           const currentTime = moment();          
           isOpen.value = currentTime.isBetween(startTime, endTime);          
 
-          console.log(startTime, endTime, isOpen.value)
-
-          if(!isOpen.value)
-            checkNextOpeningDate()
-
+          console.log(startTime, endTime, isOpen.value)                      
 
         }
       })
@@ -77,9 +73,10 @@ export default defineComponent({
       let data = storeHours;
       for (const [day, info] of Object.entries(data)) {
         if (info.day_num > currentDayNum && info.enabled == 1) {
+          const weekNumber = moment().week();
           const currentDate = moment();
-          const dateOfThatDay = currentDate.clone().day(info.day_num);
-          nextOpeningDate.value = dateOfThatDay.format('MMM d, Y')          
+          const dateOfThatDay = currentDate.week(weekNumber).startOf('week').add(info.day_num, 'days')          
+          nextOpeningDate.value = dateOfThatDay.format('MMMM DD, YYYY')          
           break; 
         }
       }
@@ -140,7 +137,7 @@ export default defineComponent({
     watchEffect(() => {    
       onMonthChange(moment().month())      
       checkStoreOpeningHours()
-      checkStoreOnBreakHours()
+      checkStoreOnBreakHours()      
       if(props.isDataLoaded)
         isDataLoaded.value = true
     })
@@ -149,6 +146,7 @@ export default defineComponent({
       setInterval(() => {
         checkStoreOpeningHours()
         checkStoreOnBreakHours()
+        checkNextOpeningDate()
       }, 1000)
     });
 
