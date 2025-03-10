@@ -147,7 +147,8 @@ export default defineComponent({
 
     onMounted(() => {
       setInterval(() => {
-        
+        checkStoreOpeningHours()
+        checkStoreOnBreakHours()
       }, 1000)
     });
 
