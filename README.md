@@ -110,3 +110,14 @@ npm run build
 npm run lint
 ```
 
+### Store Open or Close Widget URL
+```sh
+http://localhost:5173/
+```
+
+
+
+### Store Open or Close Hours Configuration URL
+```sh
+http://localhost:5173/admin
+```
