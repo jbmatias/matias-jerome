@@ -9,7 +9,9 @@ beforeEach(function () {
 });
 
 function generateWeekdayStoreHourData(): array {
-    return WeekdayStoreHour::factory()->make()->toArray();
+    return WeekdayStoreHour::factory()->make([
+        'enabled' => true,
+    ])->toArray();
 }
 
 test('Handle Update Configuration Request with correct payload', function () {                
