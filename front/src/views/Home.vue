@@ -46,6 +46,9 @@ export default defineComponent({
     
     onMounted(() => {
       getStoreHours();
+      setInterval(() => {
+        getStoreHours();
+      }, 1000)
     });
 
     return {
