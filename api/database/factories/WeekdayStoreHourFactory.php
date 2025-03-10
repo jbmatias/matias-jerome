@@ -21,7 +21,7 @@ class WeekdayStoreHourFactory extends Factory
             'close' => $this->faker->time('H:i'),
             'break_time_start' => $this->faker->time('H:i'),
             'break_time_end' => $this->faker->time('H:i'),
-            'every_other_week' => $this->faker->boolean(),
+            'every_other_week' => $this->faker->boolean(),            
         ];
     }
 }
