@@ -5,27 +5,26 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import StoreStatusWidget from '../components/StoreStatusWidget.vue'
+import { defineComponent } from "vue";
+import StoreStatusWidget from "../components/StoreStatusWidget.vue";
 import { reactive, ref, onMounted } from "vue";
 import StoreService from "@/services/Store.service";
 
 export default defineComponent({
-  name: 'Home',
+  name: "Home",
   components: {
-    StoreStatusWidget
+    StoreStatusWidget,
   },
   setup() {
-
     const storeHours = reactive({});
     const storeService = new StoreService();
-    const isDataLoaded = ref(false)
+    const isDataLoaded = ref(false);
 
     // Method to fetch store hours
-    const getStoreHours = async () => {      
+    const getStoreHours = async () => {
       try {
-        const response = await storeService.getStoreHours();                            
-        response.data.forEach((day) => {    
+        const response = await storeService.getStoreHours();
+        response.data.forEach((day) => {
           storeHours[day.value] = {
             open: day.store_hours.open,
             close: day.store_hours.close,
@@ -33,28 +32,27 @@ export default defineComponent({
             day_num: day.day_num,
             break_time_start: day.store_hours.break_time_start,
             break_time_end: day.store_hours.break_time_end,
-            every_other_week: day.store_hours.every_other_week  ? true : false,
-          };          
+            every_other_week: day.store_hours.every_other_week ? true : false,
+          };
         });
       } catch (error) {
         console.error("Error fetching store hours: ", error);
       } finally {
-        isDataLoaded.value = true
+        isDataLoaded.value = true;
       }
     };
-    
+
     onMounted(() => {
       getStoreHours();
       setInterval(() => {
         getStoreHours();
-      }, 1000)
+      }, 1000);
     });
 
     return {
       storeHours,
-      isDataLoaded
+      isDataLoaded,
     };
-  }
-
-})
+  },
+});
 </script>

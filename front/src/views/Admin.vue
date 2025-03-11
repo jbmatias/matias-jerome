@@ -56,21 +56,19 @@
     <v-divider></v-divider>
 
     <v-card-actions>
-      <v-btn color="primary" @click="saveHours" :disabled="!isValid">
-        Save Hours
-      </v-btn>
+      <v-btn color="primary" @click="saveHours" :disabled="!isValid"> Save Hours </v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
 import { reactive, ref, onMounted } from "vue";
 import StoreService from "@/services/Store.service";
 
 export default defineComponent({
-  name: 'Admin',
-  setup() {    
+  name: "Admin",
+  setup() {
     const selectedDays = ref([]);
     const storeHours = reactive({});
     const isValid = ref(false);
@@ -78,12 +76,10 @@ export default defineComponent({
     const storeService = new StoreService();
 
     // Method to save hours
-    const saveHours = () => {            
-      
-
-      const data = {}
-      Object.entries(storeHours).map((value) => {        
-        if(selectedDays.value.includes(value[0]))
+    const saveHours = () => {
+      const data = {};
+      Object.entries(storeHours).map((value) => {
+        if (selectedDays.value.includes(value[0]))
           data[value[0]] = {
             open: value[1].open,
             close: value[1].close,
@@ -100,10 +96,10 @@ export default defineComponent({
             break_time_start: value[1].break_time_start,
             break_time_end: value[1].break_time_end,
             every_other_week: value[1].every_other_week ? true : false,
-          };        
+          };
       });
-      console.log(data)
-      storeService.updateStoreHours({ storeHours: data});
+      console.log(data);
+      storeService.updateStoreHours({ storeHours: data });
     };
 
     const setDefaultSelectedDays = (days) => {
@@ -111,14 +107,14 @@ export default defineComponent({
     };
 
     // Method to fetch store hours
-    const getStoreHours = async () => {      
+    const getStoreHours = async () => {
       try {
-        const response = await storeService.getStoreHours();        
-                      
-        const days = [];        
+        const response = await storeService.getStoreHours();
 
-        response.data.forEach((day) => {    
-          if(day.enabled) {
+        const days = [];
+
+        response.data.forEach((day) => {
+          if (day.enabled) {
             days.push(day.value);
           }
 
@@ -130,17 +126,17 @@ export default defineComponent({
             enabled: day.enabled,
             break_time_start: day.store_hours.break_time_start,
             break_time_end: day.store_hours.break_time_end,
-            every_other_week: day.store_hours.every_other_week  ? true : false,
+            every_other_week: day.store_hours.every_other_week ? true : false,
           };
 
-          setDefaultSelectedDays(days);       
-          console.log(storeHours)   
+          setDefaultSelectedDays(days);
+          console.log(storeHours);
         });
       } catch (error) {
         console.error("Error fetching store hours: ", error);
       }
     };
-    
+
     onMounted(() => {
       getStoreHours();
     });
