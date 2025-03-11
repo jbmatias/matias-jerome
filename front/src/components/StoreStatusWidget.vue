@@ -101,25 +101,34 @@ export default defineComponent({
     const onMonthChange = (monthNumber) => {      
       let data = storeHours
       let daysOfWeek = []
+      let test = []
 
-      Object.entries(data).forEach((day) => {
-        console.log(day[1])
-        if(day[1].enabled)
-          daysOfWeek.push(day[1].day_num)
+      Object.entries(data).forEach((day) => {                     
+        if(day[1].enabled)          
+          daysOfWeek.push({
+            value: day[1].day_num,
+            every_other_week: day[1].every_other_week,
+          })  
       })
             
+      console.log(test.map((day) => day.value))
       const startOfMonth = moment().month(monthNumber).startOf('month');
       const endOfMonth = moment().month(monthNumber).endOf('month');
 
       let containDates = []
-      let currentDay = startOfMonth.clone();
-
+      let currentDay = startOfMonth.clone();      
       while (currentDay <= endOfMonth) {
-        const dayOfWeek = currentDay.day(); 
+        const dayOfWeek = currentDay.day();                          
                 
-        if (daysOfWeek.includes(dayOfWeek)) {
-          containDates.push(currentDay.format('YYYY-MM-DD')); 
-        }
+        const isEveryOtherWeak = (currentDay.clone().week() - currentDay.clone().startOf('month').week() + 1) % 2 != 0 ? true : false;
+
+
+        daysOfWeek.map((day) => {
+          if(day.value == dayOfWeek && (day.every_other_week && isEveryOtherWeak))
+            containDates.push(currentDay.format('YYYY-MM-DD')); 
+          else if(day.value == dayOfWeek && !day.every_other_week)
+            containDates.push(currentDay.format('YYYY-MM-DD'));
+        })
         
         // Move to the next day
         currentDay.add(1, 'day');
