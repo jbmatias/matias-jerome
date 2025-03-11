@@ -11,6 +11,8 @@
 |
 */
 
+use App\Models\WeekdayStoreHour;
+
 pest()->extend(Tests\TestCase::class)
  ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
     ->in('Feature')
@@ -45,4 +47,11 @@ expect()->extend('toBeOne', function () {
 function something()
 {
     // ..
+}
+
+
+function generateWeekdayStoreHourData(): array {
+    return WeekdayStoreHour::factory()->make([
+        'enabled' => true,
+    ])->toArray();
 }

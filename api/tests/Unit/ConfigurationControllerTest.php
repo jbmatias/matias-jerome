@@ -8,12 +8,6 @@ beforeEach(function () {
     $this->artisan('db:seed');
 });
 
-function generateWeekdayStoreHourData(): array {
-    return WeekdayStoreHour::factory()->make([
-        'enabled' => true,
-    ])->toArray();
-}
-
 test('Handle Update Configuration Request with correct payload', function () {                
     $response = $this->put(route('update.store-hours'), [
         'storeHours' => [

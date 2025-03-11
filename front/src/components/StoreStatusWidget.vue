@@ -12,6 +12,7 @@
         width="40%"
         v-model="date"
         @update:month="onMonthChange"
+        @update:year="onYearChange"
         :allowed-dates="dates"
       >
         <template v-slot:title></template>
@@ -131,6 +132,10 @@ export default defineComponent({
       }
       dates.value = containDates;
     };
+
+    const onYearChange = (year) => {
+      console.log(year)
+    }
 
     const allowedDates = (date) => {
       return dates.includes(date);
