@@ -164,6 +164,7 @@ export default defineComponent({
       dates,
       allowedDates,
       isDataLoaded,
+      onYearChange,
     };
   },
 });
