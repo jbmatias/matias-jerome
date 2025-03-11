@@ -15,7 +15,7 @@ function generateWeekdayStoreHourData(): array {
 }
 
 test('Handle Update Configuration Request with correct payload', function () {                
-    $response = $this->put(route('update.configure-hours'), [
+    $response = $this->put(route('update.store-hours'), [
         'storeHours' => [
             'monday' => generateWeekdayStoreHourData(),
             'tuesday' => generateWeekdayStoreHourData(),
@@ -37,7 +37,7 @@ test('Handle Update Configuration Request with correct payload', function () {
 
 
 test('Handle Update Configuration Request with incorrect payload', function () {          
-    $response = $this->put(route('update.configure-hours'), [
+    $response = $this->put(route('update.store-hours'), [
         'storeHours' => [
             'monday1' => generateWeekdayStoreHourData(),
             'tuesday' => generateWeekdayStoreHourData(),
