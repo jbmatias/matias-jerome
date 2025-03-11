@@ -34,8 +34,7 @@ export default defineComponent({
             break_time_start: day.store_hours.break_time_start,
             break_time_end: day.store_hours.break_time_end,
             every_other_week: day.store_hours.every_other_week  ? true : false,
-          };
-          console.log(storeHours)   
+          };          
         });
       } catch (error) {
         console.error("Error fetching store hours: ", error);

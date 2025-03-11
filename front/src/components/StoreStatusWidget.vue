@@ -61,10 +61,7 @@ export default defineComponent({
           const endTime = moment(day[1].close, 'hh:mm');                     
           
           const currentTime = moment();          
-          isOpen.value = currentTime.isBetween(startTime, endTime);          
-
-          console.log(startTime, endTime, isOpen.value)                      
-
+          isOpen.value = currentTime.isBetween(startTime, endTime);                    
         }
       })
     }
@@ -91,17 +88,15 @@ export default defineComponent({
           const endTime = moment(day[1].break_time_end, 'hh:mm'); 
           
           const currentTime = moment();          
-          isOnBreak.value = currentTime.isBetween(startTime, endTime);
-          console.log(isOnBreak)          
+          isOnBreak.value = currentTime.isBetween(startTime, endTime);          
 
         }
       })
     }
 
-    const onMonthChange = (monthNumber) => {      
+    const onMonthChange = (monthNumber) => {           
       let data = storeHours
-      let daysOfWeek = []
-      let test = []
+      let daysOfWeek = []      
 
       Object.entries(data).forEach((day) => {                     
         if(day[1].enabled)          
@@ -110,8 +105,7 @@ export default defineComponent({
             every_other_week: day[1].every_other_week,
           })  
       })
-            
-      console.log(test.map((day) => day.value))
+                  
       const startOfMonth = moment().month(monthNumber).startOf('month');
       const endOfMonth = moment().month(monthNumber).endOf('month');
 
@@ -133,18 +127,15 @@ export default defineComponent({
         // Move to the next day
         currentDay.add(1, 'day');
       }
-      dates.value = containDates
-      console.log(dates);
+      dates.value = containDates      
 
     }
 
-    const allowedDates = (date) => {
-      console.log(date)
+    const allowedDates = (date) => {      
       return dates.includes(date)
     }
     
-    watchEffect(() => {    
-      onMonthChange(moment().month())      
+    watchEffect(() => {          
       checkStoreOpeningHours()
       checkStoreOnBreakHours()      
       if(props.isDataLoaded)
