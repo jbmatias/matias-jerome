@@ -10,7 +10,7 @@ class GetStoreHoursAction
 {
     use AsAction;
 
-    public function handle()
+    public function handle(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         $data = Weekday::with('storeHours')->get();
         return GetStoreHoursResource::collection($data);

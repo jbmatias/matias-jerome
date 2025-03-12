@@ -10,7 +10,7 @@ class ConfigureStoreHoursAction
 {
     use AsAction;
 
-    public function handle(array $attributes)
+    public function handle(array $attributes): \Illuminate\Http\JsonResponse
     {        
 
         foreach ($attributes as $key => $value) {
