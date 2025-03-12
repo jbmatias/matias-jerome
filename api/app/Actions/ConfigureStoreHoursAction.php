@@ -17,9 +17,7 @@ class ConfigureStoreHoursAction
             
             $weekday = Weekday::where('value', $key)->with('storeHours')->first();            
             $weekday->enabled = $value['enabled'];
-            $weekday->save();
-            
-            Log::info(collect($value)->except('enabled')->toArray());
+            $weekday->save();                        
 
             $weekday->storeHours->update(collect($value)->except('enabled')->toArray());
         }
