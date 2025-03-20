@@ -24,12 +24,14 @@ Once the containers are running, you need to configure the environment variables
 
 Open your .env file and update the following database-related variables:
 
+```bash
 DB_CONNECTION=mysql
 DB_HOST=172.27.0.3
 DB_PORT=3306
 DB_DATABASE=store-api
 DB_USERNAME=root
 DB_PASSWORD=root
+```
 
 If DB_HOST in the .env file is incorrect, find the correct IP address of the database container by running the following command:
 
